@@ -113,7 +113,7 @@ namespace TeamsAndEmployees.Controllers
 
             if (team.Employees.Count != 0)
             {
-                ViewBag.Message = "You can't delete non-empty teams.";
+                ViewBag.ValidationMessage = "You can't delete a team with employees present!";
 
                 ListDeleteTeamViewModel teamModel = new ListDeleteTeamViewModel(team);
                 return View(teamModel);

@@ -4,13 +4,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+
+    @Styles.Render("https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css")
+    @Styles.Render("https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css")
+    @Styles.Render("~/Content/themes/base/css")
 </head>
 <body>
-    @RenderBody()
+    <div class="container">
+        <div class="page-header">
+            <h1>@ViewBag.Title <small>@ViewBag.Description</small></h1>
+        </div>
+
+        @RenderBody()
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

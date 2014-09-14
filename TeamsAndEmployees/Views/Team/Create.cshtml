@@ -1,10 +1,9 @@
 ﻿@model TeamsAndEmployees.Models.EditCreateTeamViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Team";
+    ViewBag.Description = "Create a new team.";
 }
-
-<h2>Create</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -13,22 +12,26 @@
     <fieldset>
         <legend>Team</legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
+        <div class="form-group">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Name)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
-
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Create" class="btn btn-default" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <a href="@Url.Action("")">
+        <i class="glyphicon glyphicon-arrow-left"></i>
+        Back to List
+    </a>
 </div>
 
 @section Scripts {

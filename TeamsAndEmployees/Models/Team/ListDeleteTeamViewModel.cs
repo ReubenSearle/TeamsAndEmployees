@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace TeamsAndEmployees.Models
 {
@@ -23,8 +21,10 @@ namespace TeamsAndEmployees.Models
             }
         }
 
+        [Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
 
+        [Display(Name = "Employees")]
         public int EmployeeCount
         {
             get { return _employeeCount; }

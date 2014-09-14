@@ -1,10 +1,8 @@
 ﻿@model TeamsAndEmployees.Models.Employee
-
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Employee";
+    ViewBag.Description = "Create a new employee.";
 }
-
-<h2>Create</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -13,48 +11,58 @@
     <fieldset>
         <legend>Employee</legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.FirstName)
+        <div class="form-group">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.FirstName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.FirstName)
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.FirstName)
-            @Html.ValidationMessageFor(model => model.FirstName)
+        <div class="form-group">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.LastName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.LastName)
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.DateOfBirth)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "date" })
+                @Html.ValidationMessageFor(model => model.DateOfBirth)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.TeamId, "Team")
+            </div>
+            <div class="editor-field">
+                @Html.DropDownList("TeamId", String.Empty)
+                @Html.ValidationMessageFor(Model => Model.TeamId)
+            </div>
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.LastName)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.LastName)
-            @Html.ValidationMessageFor(model => model.LastName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DateOfBirth)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DateOfBirth)
-            @Html.ValidationMessageFor(model => model.DateOfBirth)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TeamId, "Team")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("TeamId", String.Empty)
-            @Html.ValidationMessageFor(Model => Model.TeamId)
-        </div>
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
+            <p>
+                <input type="submit" value="Create" class="btn btn-default" />
+            </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <a href="@Url.Action("")">
+        <i class="glyphicon glyphicon-arrow-left"></i>
+        Back to List
+    </a>
 </div>
 
 @section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/custom")
 }
