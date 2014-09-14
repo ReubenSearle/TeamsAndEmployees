@@ -13,7 +13,7 @@ namespace TeamsAndEmployees.Controllers
     {
         private TeamsAndEmployeesContext db = new TeamsAndEmployeesContext();
 
-        //
+        // Returns a list of all employees, or employees for the specified team
         // GET: /Employee/
 
         public ActionResult Index(int teamId = 0)
