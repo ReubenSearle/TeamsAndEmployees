@@ -1,4 +1,4 @@
-﻿@model TeamsAndEmployees.Models.Employee
+﻿@model TeamsAndEmployees.Models.EmployeeViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -46,6 +46,8 @@
             @Html.DropDownList("TeamId", String.Empty)
             @Html.ValidationMessageFor(Model => Model.TeamId)
         </div>
+
+        @Html.HiddenFor(model => model.OriginalTeamId)
 
         <p>
             <input type="submit" value="Save" />

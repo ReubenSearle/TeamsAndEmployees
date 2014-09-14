@@ -131,8 +131,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Employee.cs" />
-    <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\Employee\EmployeeViewModel.cs" />
+    <Compile Include="Models\Team\EditCreateTeamViewModel.cs" />
+    <Compile Include="Models\Employee\Employee.cs" />
+    <Compile Include="Models\Team\TeamBase.cs" />
+    <Compile Include="Models\Team\ListDeleteTeamViewModel.cs" />
+    <Compile Include="Models\Team\Team.cs" />
     <Compile Include="Models\TeamsAndEmployeesContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -16,9 +16,22 @@ namespace TeamsAndEmployees.Controllers
         //
         // GET: /Employee/
 
-        public ActionResult Index()
+        public ActionResult Index(int teamId = 0)
         {
-            return View(db.Employees.ToList());
+            // Return all employees, if a team id is not specified
+            if (teamId == 0) 
+            { 
+                return View(db.Employees.ToList()); 
+            }
+
+            Team team = db.Teams.Find(teamId);
+            if (team == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Return employees for the specified team
+            return View(db.Employees.Where(e => e.TeamId == teamId));
         }
 
         //
@@ -41,7 +54,7 @@ namespace TeamsAndEmployees.Controllers
             {
                 db.Employees.Add(employee);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { teamId = employee.TeamId });
             }
 
             ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name");
@@ -59,8 +72,10 @@ namespace TeamsAndEmployees.Controllers
                 return HttpNotFound();
             }
 
+            EmployeeViewModel employeeModel = new EmployeeViewModel(employee);
             ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", employee.TeamId);
-            return View(employee);
+
+            return View(employeeModel);
         }
 
         //
@@ -68,15 +83,18 @@ namespace TeamsAndEmployees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Employee employee)
+        public ActionResult Edit(EmployeeViewModel employeeModel)
         {
             if (ModelState.IsValid)
             {
+                Employee employee = new Employee(employeeModel);
+
                 db.Entry(employee).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Index", new { teamId = employeeModel.OriginalTeamId });
             }
-            return View(employee);
+            return View(employeeModel);
         }
 
         //
@@ -89,6 +107,7 @@ namespace TeamsAndEmployees.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(employee);
         }
 
@@ -100,9 +119,11 @@ namespace TeamsAndEmployees.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Employee employee = db.Employees.Find(id);
+            int teamId = employee.TeamId;
+
             db.Employees.Remove(employee);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { teamId = teamId });
         }
 
         protected override void Dispose(bool disposing)

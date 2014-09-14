@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TeamsAndEmployees.Models.Team>
+﻿@model IEnumerable<TeamsAndEmployees.Models.ListDeleteTeamViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -17,6 +17,7 @@
         <th>
             @Html.DisplayNameFor(model => model.DateCreated)
         </th>
+        <th>Employees</th>
         <th></th>
     </tr>
 
@@ -29,8 +30,12 @@
             @Html.DisplayFor(modelItem => item.DateCreated)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.EmployeeCount)
+        </td>
+        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
+            @Html.ActionLink("View Employees", "", "Employee", new { teamId=item.Id }, null)
         </td>
     </tr>
 }

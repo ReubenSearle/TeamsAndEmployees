@@ -18,7 +18,13 @@ namespace TeamsAndEmployees.Controllers
 
         public ActionResult Index()
         {
-            return View(db.Teams.ToList());
+            List<ListDeleteTeamViewModel> teamModels = new List<ListDeleteTeamViewModel>();
+            foreach(var team in db.Teams)
+            {
+                teamModels.Add(new ListDeleteTeamViewModel(team));
+            }
+
+            return View(teamModels);
         }
 
         //
@@ -34,18 +40,18 @@ namespace TeamsAndEmployees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Team team)
+        public ActionResult Create(EditCreateTeamViewModel teamModel)
         {
             if (ModelState.IsValid)
             {
-                team.DateCreated = DateTime.Now;
+                Team team = new Team(teamModel);
 
                 db.Teams.Add(team);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(team);
+            return View(teamModel);
         }
 
         //
@@ -58,7 +64,9 @@ namespace TeamsAndEmployees.Controllers
             {
                 return HttpNotFound();
             }
-            return View(team);
+
+            EditCreateTeamViewModel model = new EditCreateTeamViewModel(team);
+            return View(model);
         }
 
         //
@@ -66,15 +74,17 @@ namespace TeamsAndEmployees.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Team team)
+        public ActionResult Edit(EditCreateTeamViewModel teamModel)
         {
             if (ModelState.IsValid)
             {
+                Team team = new Team(teamModel);
+
                 db.Entry(team).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(team);
+            return View(teamModel);
         }
 
         //
@@ -87,7 +97,9 @@ namespace TeamsAndEmployees.Controllers
             {
                 return HttpNotFound();
             }
-            return View(team);
+
+            ListDeleteTeamViewModel teamModel = new ListDeleteTeamViewModel(team);
+            return View(teamModel);
         }
 
         //
@@ -98,6 +110,15 @@ namespace TeamsAndEmployees.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Team team = db.Teams.Find(id);
+
+            if (team.Employees.Count != 0)
+            {
+                ViewBag.Message = "You can't delete non-empty teams.";
+
+                ListDeleteTeamViewModel teamModel = new ListDeleteTeamViewModel(team);
+                return View(teamModel);
+            }
+
             db.Teams.Remove(team);
             db.SaveChanges();
             return RedirectToAction("Index");
